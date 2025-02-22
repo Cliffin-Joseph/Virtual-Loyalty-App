@@ -1,4 +1,7 @@
 # Virtual Loyalty App
+So far, I have only created the app's base from which we can start working. For now, I have added all the screens to the app.js file so that you guys can understand the codes better. Moving forward we need to make individual files for the respective pages. I have also added some placeholder images that I alr had. 
+
+
 ## 🚀 How to Set Up & Run the Project
 Follow these steps to **clone, install, and run the project locally**:
 

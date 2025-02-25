@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, TextInput, FlatList, Image, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 
 // Placeholder Data
@@ -10,51 +10,53 @@ const restaurants = [
 ];
 
 export default function Search() {
+  const [searchText, setSearchText] = useState('');
+  const [searchActive, setSearchActive] = useState(false);
+  const [filteredRestaurants, setFilteredRestaurants] = useState([]);
+
+  const handleSearch = () => {
+    const filtered = restaurants.filter((restaurant) =>
+      restaurant.name.toLowerCase().includes(searchText.toLowerCase())
+    );
+    
+    setFilteredRestaurants(filtered);
+    setSearchActive(true); 
+  };
+
   return (
     <View style={styles.searchContainer}>
-        <TextInput style={styles.searchBox} placeholder="Search..." />
-        <Text style={styles.header}>Popular Stores</Text>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {restaurants.map((restaurant) => (
-                <TouchableOpacity key={restaurant.id} style={styles.popularCard}>
-                    <Image source={restaurant.image} style={styles.restaurantImage} />
-                    <View style={styles.overlay}>
-                        <Text style={styles.restaurantText}>{restaurant.name}</Text>
-                    </View>
-                </TouchableOpacity>
+      <TextInput
+        style={styles.searchBox}
+        placeholder="Search..."
+        value={searchText}
+        onChangeText={setSearchText}
+        onSubmitEditing={handleSearch}
+      />
+      
+      {searchActive && filteredRestaurants.length > 0 && (
+        <>
+          <Text style={styles.header}>Search Results</Text>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            {filteredRestaurants.map((restaurant) => (
+              <TouchableOpacity key={restaurant.id} style={styles.restaurantCard}>
+                <Image source={restaurant.image} style={styles.restaurantImage} />
+                <View style={styles.overlay}>
+                  <Text style={styles.restaurantText}>{restaurant.name}</Text>
+                </View>
+              </TouchableOpacity>
             ))}
-        </ScrollView>
-
-        <Text style={styles.header}>Your Favourites</Text>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {restaurants.map((restaurant) => (
-                <TouchableOpacity key={restaurant.id} style={styles.favCard}>
-                    <Image source={restaurant.image} style={styles.restaurantImage} />
-                    <View style={styles.overlay}>
-                        <Text style={styles.restaurantText}>{restaurant.name}</Text>
-                    </View>
-                </TouchableOpacity>
-            ))}
-        </ScrollView>
+          </ScrollView>
+        </>
+      )}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  searchContainer: {
     flex: 1,
     padding: 20,
     backgroundColor: '#f8f8f8',
-  },
-  searchContainer: {
-    flex: 0.75,
-    padding: 20,
-    backgroundColor: '#f8f8f8',
-  },
-  header: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginVertical: 10,
   },
   searchBox: {
     padding: 10,
@@ -62,18 +64,17 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 20,
   },
-  banner: {
-    width: '100%',
-    height: '30%',
-    borderRadius: 10,
-    marginBottom: 15,
+  header: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginVertical: 10,
   },
   restaurantCard: {
     marginRight: 15,
     borderRadius: 10,
     overflow: 'hidden',
-    width: 165,
-    height: 150,
+    width: 250,
+    height: 170,
   },
   restaurantImage: {
     width: '100%',
@@ -91,18 +92,5 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
   },
-  popularCard: {
-    marginRight: 15,
-    borderRadius: 10,
-    overflow: 'hidden',
-    width: 250,
-    height: 170,
-  },
-  favCard: {
-    marginRight: 15,
-    borderRadius: 10,
-    overflow: 'hidden',
-    width: 250,
-    height: 170,
-  },
 });
+

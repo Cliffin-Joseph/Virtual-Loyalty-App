@@ -1,24 +1,25 @@
 import React from 'react';
 import { View, Text, TextInput, Image, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
-
-// Placeholder Data
-const restaurants = [
-  { id: '1', name: 'McDonalds', image: require('../app/assets/alien.jpg') },
-  { id: '2', name: 'Fishball Noodles', image: require('../app/assets/article1.jpg') },
-  { id: '3', name: 'Ramen House', image: require('../app/assets/article4.jpg') },
-  { id: '4', name: 'Bubble Tea', image: require('../app/assets/warcraft.jpg') },
-];
+import { useNavigation } from '@react-navigation/native';
+import restaurantData from '../app/componants/RestaurantData';
 
 export default function Home() {
+  const navigation = useNavigation(); //to enable navigation
+
   return (
    <View style={styles.container}>
         {/* Banner */}
         <Image source={require('../app/assets/newsletter2.jpg')} style={styles.banner} />
+        
         {/* Promotions Section */}
         <Text style={styles.header}>Promotions</Text>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        {restaurants.map((restaurant) => (
-            <TouchableOpacity key={restaurant.id} style={styles.restaurantCard}>
+        {restaurantData.map((restaurant) => (
+            <TouchableOpacity 
+              key={restaurant.id} 
+              style={styles.restaurantCard}
+              onPress={() => navigation.navigate('Restaurant', { restaurant })} // Navigate on press
+            >
             <Image source={restaurant.image} style={styles.restaurantImage} />
             <View style={styles.overlay}>
                 <Text style={styles.restaurantText}>{restaurant.name}</Text>
@@ -26,11 +27,16 @@ export default function Home() {
             </TouchableOpacity>
         ))}
         </ScrollView>
+        
         {/* Nearby Stores Section */}
         <Text style={styles.header}>Nearby Stores</Text>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        {restaurants.map((restaurant) => (
-            <TouchableOpacity key={restaurant.id} style={styles.restaurantCard}>
+        {restaurantData.map((restaurant) => (
+            <TouchableOpacity 
+              key={restaurant.id} 
+              style={styles.restaurantCard}
+              onPress={() => navigation.navigate('Restaurant', { restaurant })} // Navigate on press
+            >
             <Image source={restaurant.image} style={styles.restaurantImage} />
             <View style={styles.overlay}>
                 <Text style={styles.restaurantText}>{restaurant.name}</Text>

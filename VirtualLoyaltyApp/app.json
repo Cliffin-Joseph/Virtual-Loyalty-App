@@ -4,11 +4,11 @@
     "slug": "VirtualLoyaltyApp",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "../app/assets/icon.png",
+    "icon": "./app/assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "../app/assets/splash-icon.png",
+      "image": "./app/assets/splash-icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

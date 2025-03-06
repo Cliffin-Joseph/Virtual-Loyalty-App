@@ -3,13 +3,15 @@ import { View, Text, TextInput, Image, ScrollView, StyleSheet, TouchableOpacity 
 import { useNavigation, useRoute } from '@react-navigation/native';
 import restaurantData from '../app/components/RestaurantData';
 
-export default function Home() {
+export default function Home({ loggedInUser }) {
   const navigation = useNavigation(); //to enable navigation
   const route = useRoute();
-  const loggedInUser = route.params?.loggedInUser || "Guest"; // Get username
 
   return (
    <View style={styles.container}>
+     <View>
+            <Text>Welcome, {loggedInUser || "Guest"}!</Text>
+        </View>
         {/* Banner */}
         <Image source={require('../app/assets/newsletter2.jpg')} style={styles.banner} />
         
@@ -47,6 +49,7 @@ export default function Home() {
         ))}
         </ScrollView>
     </View>
+    
   );
 }
 

@@ -1,88 +1,96 @@
-import React, { useState } from "react";
-import { View, TextInput, Button, Text, Alert } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import React, { useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
-export default function AuthScreen() {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-
-    // Use local storage for registered users
-    const [users, setUsers] = useState([]);
-    const [isRegister, setIsRegister] = useState(false);
+export default function Login({setLoggedInUser}) {
+    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
     const navigation = useNavigation();
 
-    // Store logged in user
-    const [loggedInUser, setLoggedInUser] = useState(null);
-
-    const handleAuth = () => {
-        if (!username || !password) {
-            Alert.alert("Error", "Please enter both username and password");
-            return;
-        }
-
-        // Simulating successful login
-        Alert.alert("Success", "Login successful!");
-        // Pass username to Home.js
-        navigation.navigate("Home", { loggedInUser: username }); 
-
-        if (isRegister) {
-            // Check if user already exists
-            if (users.some(user => user.username === username)) {
-                Alert.alert("Error", "User already exists!");
-            } else {
-                // Add new user
-                setUsers([...users, { username, password }]);
-                Alert.alert("Success", "Registration complete!");
-            }
-        } else {
-            // Check if login details match
-            const user = users.find(user => user.username === username && user.password === password);
-            if (user) {
-                Alert.alert("Success", "Login successful!");
-            } else {
-                Alert.alert("Error", "Invalid username or password");
-            }
-        }
+    const handleLogin = () => {
+        // Placeholder function for login logic
+        console.log('Logging in as:', username);
+        setLoggedInUser(username);
+        navigation.navigate('Main'); // Navigate to Home screen after login
     };
 
-    const handleLogout = () => {
-        setLoggedInUser(null);
-        setUsername("");
-        setPassword("");
-    }
-
-    if (loggedInUser) {
-        return (
-            <View style={{ padding: 20, alignitems: "centre" }}>
-                <Text style={{ fontSize: 18, marginBottom: 20 }}>Welcome, {loggedInUser}!</Text>
-                <Button title="Logout" onPress={handleLogout} />
-            </View>
-        );
-    }
-
     return (
+        <View style={styles.container}>
+            <Text style={styles.header}>Login</Text>
 
-        <View style={{ padding: 20 }}>
+            <Text style={styles.label}>Email</Text>
             <TextInput
-                placeholder="Username"
-                value={username}
-                onChangeText={setUsername}
-                style={{ borderWidth: 1, marginBottom: 10, padding: 8 }}
+                style={styles.input}
+                placeholder="Enter your email"
+                keyboardType="email-address"
+                value={email}
+                onChangeText={setEmail}
             />
+
+            <Text style={styles.label}>Password</Text>
             <TextInput
-                placeholder="Password"
-                value={password}
+                style={styles.input}
+                placeholder="Enter your password"
                 secureTextEntry
+                value={password}
                 onChangeText={setPassword}
-                style={{ borderWidth: 1, marginBottom: 10, padding: 8 }}
             />
-            <Button title={isRegister ? "Register" : "Login"} onPress={handleAuth} />
-            <Text
-                onPress={() => setIsRegister(!isRegister)}
-                style={{ textAlign: "center", marginTop: 10, color: "blue" }}
-            >
-                {isRegister ? "Already have an account? Login" : "Don't have an account? Register"}
-            </Text>
+
+            <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+                <Text style={styles.buttonText}>Submit</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={() => navigation.replace('Signup')}>
+                <Text style={styles.signUpText}>Don't have an account? Sign up</Text>
+            </TouchableOpacity>
         </View>
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#f8f8f8',
+        padding: 20,
+    },
+    header: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 20,
+    },
+    label: {
+        fontSize: 14,
+        alignSelf: 'flex-start',
+        marginBottom: 5,
+    },
+    input: {
+        width: '100%',
+        padding: 10,
+        backgroundColor: '#fff',
+        borderRadius: 5,
+        borderWidth: 1,
+        borderColor: '#ddd',
+        marginBottom: 15,
+    },
+    loginButton: {
+        backgroundColor: '#007bff',
+        padding: 15,
+        borderRadius: 5,
+        width: '100%',
+        alignItems: 'center',
+        marginTop: 10,
+    },
+    buttonText: {
+        fontSize: 16,
+        color: '#fff',
+        fontWeight: 'bold',
+    },
+    signUpText: {
+        marginTop: 15,
+        color: '#007bff',
+        fontSize: 14,
+    },
+});

@@ -1,19 +1,29 @@
 import React, { useState } from "react";
 import { View, TextInput, Button, Text, Alert } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 export default function AuthScreen() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
     // Use local storage for registered users
-    const [users, setUsers] = useState([]); 
+    const [users, setUsers] = useState([]);
     const [isRegister, setIsRegister] = useState(false);
+    const navigation = useNavigation();
+
+    // Store logged in user
+    const [loggedInUser, setLoggedInUser] = useState(null);
 
     const handleAuth = () => {
         if (!username || !password) {
             Alert.alert("Error", "Please enter both username and password");
             return;
         }
+
+        // Simulating successful login
+        Alert.alert("Success", "Login successful!");
+        // Pass username to Home.js
+        navigation.navigate("Home", { loggedInUser: username }); 
 
         if (isRegister) {
             // Check if user already exists
@@ -35,7 +45,23 @@ export default function AuthScreen() {
         }
     };
 
+    const handleLogout = () => {
+        setLoggedInUser(null);
+        setUsername("");
+        setPassword("");
+    }
+
+    if (loggedInUser) {
+        return (
+            <View style={{ padding: 20, alignitems: "centre" }}>
+                <Text style={{ fontSize: 18, marginBottom: 20 }}>Welcome, {loggedInUser}!</Text>
+                <Button title="Logout" onPress={handleLogout} />
+            </View>
+        );
+    }
+
     return (
+
         <View style={{ padding: 20 }}>
             <TextInput
                 placeholder="Username"

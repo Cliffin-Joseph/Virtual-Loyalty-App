@@ -2,21 +2,51 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-export default function Login() {
+export default function Signup() {
+  const [name, setName] = useState('');
+  const [dob, setDob] = useState('');
+  const [mobile, setMobile] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
 
-  const handleLogin = () => {
+  const handleSignup = () => {
     // Placeholder function for login logic
-    console.log('Logging in as:', email);
-    navigation.replace('Main'); // Navigate to Home screen after login
+    console.log('Signed up');
+    navigation.replace('Login'); // Navigate to Login screen after signup
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Login</Text>
+      <Text style={styles.header}>Sign Up</Text>
       
+      <Text style={styles.label}>Name</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Enter your full name"
+        keyboardType='email-address'
+        value={name}
+        onChangeText={setName}
+      />
+
+      <Text style={styles.label}>Mobile</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Enter your mobile number"
+        keyboardType='decimal-pad'
+        value={mobile}
+        onChangeText={setMobile}
+      />
+
+      <Text style={styles.label}>Date of Birth</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="DD/MM/YYYY"
+        keyboardType="email-address"
+        value={dob}
+        onChangeText={setDob}
+      />
+
       <Text style={styles.label}>Email</Text>
       <TextInput
         style={styles.input}
@@ -35,12 +65,8 @@ export default function Login() {
         onChangeText={setPassword}
       />
       
-      <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+      <TouchableOpacity style={styles.signupButton} onPress={handleSignup}>
         <Text style={styles.buttonText}>Submit</Text>
-      </TouchableOpacity>
-      
-      <TouchableOpacity onPress={() => navigation.replace('Signup')}>
-        <Text style={styles.signUpText}>Don't have an account? Sign up</Text>
       </TouchableOpacity>
     </View>
   );
@@ -73,7 +99,7 @@ const styles = StyleSheet.create({
     borderColor: '#ddd',
     marginBottom: 15,
   },
-  loginButton: {
+  signupButton: {
     backgroundColor: '#007bff',
     padding: 15,
     borderRadius: 5,

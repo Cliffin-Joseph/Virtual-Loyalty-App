@@ -1,10 +1,12 @@
 import React from 'react';
 import { View, Text, TextInput, Image, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import restaurantData from '../app/components/RestaurantData';
 
 export default function Home() {
   const navigation = useNavigation(); //to enable navigation
+  const route = useRoute();
+  const loggedInUser = route.params?.loggedInUser || "Guest"; // Get username
 
   return (
    <View style={styles.container}>

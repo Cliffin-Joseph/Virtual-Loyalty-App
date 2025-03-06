@@ -11,6 +11,7 @@ import SearchScreen from './screens/Search';
 import CardsScreen from './screens/Cards';
 import ProfileScreen from './screens/Profile';
 import Restaurant from './screens/Restaurant';
+import LoginScreen from './screens/Login';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -49,6 +50,11 @@ export default function Main() {
                 name="Profile" 
                 component={ProfileScreen} 
                 options={{ tabBarIcon: ({ color, size }) => <Ionicons name="person-circle-outline" size={size} color={color} /> }}
+              />
+              <Tab.Screen 
+                name="Login" 
+                component={LoginScreen} 
+                options={{ tabBarIcon: ({ color, size }) => <Ionicons name="log-in" size={size} color={color} /> }}
               />
             </Tab.Navigator>
       </NavigationContainer>

@@ -1,6 +1,9 @@
+// Updated Signup.js with Auto-Incrementing ID
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function Signup() {
   const [name, setName] = useState('');
@@ -10,63 +13,43 @@ export default function Signup() {
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
 
-  const handleSignup = () => {
-    // Placeholder function for login logic
-    console.log('Signed up');
-    navigation.replace('Login'); // Navigate to Login screen after signup
+  const handleSignup = async () => {
+    if (!name || !dob || !mobile || !email || !password) {
+      alert('All fields are required!');
+      return;
+    }
+
+    const existingUsers = await AsyncStorage.getItem('users');
+    const users = existingUsers ? JSON.parse(existingUsers) : [];
+    const newUserId = users.length > 0 ? users[users.length - 1].id + 1 : 1; // Auto-increment ID
+    
+    const user = { id: newUserId, name, dob, mobile, email, password };
+    users.push(user);
+    await AsyncStorage.setItem('users', JSON.stringify(users));
+
+    alert('Signup successful! You can now log in.');
+    navigation.navigate('Login');
   };
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+        <Ionicons name="arrow-back" size={24} color="black" />
+      </TouchableOpacity>
+      
       <Text style={styles.header}>Sign Up</Text>
-      
       <Text style={styles.label}>Name</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Enter your full name"
-        keyboardType='email-address'
-        value={name}
-        onChangeText={setName}
-      />
-
-      <Text style={styles.label}>Mobile</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Enter your mobile number"
-        keyboardType='decimal-pad'
-        value={mobile}
-        onChangeText={setMobile}
-      />
-
+      <TextInput placeholder="Name" value={name} onChangeText={setName} style={styles.input} />
       <Text style={styles.label}>Date of Birth</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="DD/MM/YYYY"
-        keyboardType="email-address"
-        value={dob}
-        onChangeText={setDob}
-      />
-
+      <TextInput placeholder="Date of Birth" value={dob} onChangeText={setDob} style={styles.input} />
+      <Text style={styles.label}>Mobile</Text>
+      <TextInput placeholder="Mobile" value={mobile} onChangeText={setMobile} keyboardType="phone-pad" style={styles.input} />
       <Text style={styles.label}>Email</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Enter your email"
-        keyboardType="email-address"
-        value={email}
-        onChangeText={setEmail}
-      />
-      
+      <TextInput placeholder="Email" value={email} onChangeText={setEmail} keyboardType="email-address" style={styles.input} />
       <Text style={styles.label}>Password</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Enter your password"
-        secureTextEntry
-        value={password}
-        onChangeText={setPassword}
-      />
-      
+      <TextInput placeholder="Password" value={password} onChangeText={setPassword} secureTextEntry style={styles.input} />
       <TouchableOpacity style={styles.signupButton} onPress={handleSignup}>
-        <Text style={styles.buttonText}>Submit</Text>
+        <Text style={styles.buttonText}>Sign Up</Text>
       </TouchableOpacity>
     </View>
   );
@@ -79,6 +62,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#f8f8f8',
     padding: 20,
+  },
+  backButton: {
+    position: 'absolute',
+    top: 40,
+    left: 20,
+    zIndex: 10,
   },
   header: {
     fontSize: 24,

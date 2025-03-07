@@ -1,5 +1,7 @@
+// Updated Login.js with User ID Storage
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 
 export default function Login() {
@@ -7,39 +9,31 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
 
-  const handleLogin = () => {
-    // Placeholder function for login logic
-    console.log('Logging in as:', email);
-    navigation.replace('Main'); // Navigate to Home screen after login
+  const handleLogin = async () => {
+    const storedUsers = await AsyncStorage.getItem('users');
+    const users = storedUsers ? JSON.parse(storedUsers) : [];
+    
+    const userFound = users.find((user) => user.email === email && user.password === password);
+    if (userFound) {
+      await AsyncStorage.setItem('currentUserID', JSON.stringify(userFound.id)); // Store logged-in user ID
+      alert('Login successful!');
+      navigation.navigate('Main');
+    } else {
+      alert('Invalid email or password');
+    }
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Login</Text>
-      
-      <Text style={styles.label}>Email</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Enter your email"
-        keyboardType="email-address"
-        value={email}
-        onChangeText={setEmail}
-      />
-      
-      <Text style={styles.label}>Password</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Enter your password"
-        secureTextEntry
-        value={password}
-        onChangeText={setPassword}
-      />
-      
+      <Text style={styles.label}>Enter your Email</Text>
+      <TextInput placeholder="Email" value={email} onChangeText={setEmail} keyboardType="email-address" style={styles.input} />
+      <Text style={styles.label}>Enter your Password</Text>
+      <TextInput placeholder="Password" value={password} onChangeText={setPassword} secureTextEntry style={styles.input} />
       <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Submit</Text>
+        <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
-      
-      <TouchableOpacity onPress={() => navigation.replace('Signup')}>
+      <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
         <Text style={styles.signUpText}>Don't have an account? Sign up</Text>
       </TouchableOpacity>
     </View>

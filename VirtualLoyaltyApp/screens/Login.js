@@ -17,7 +17,12 @@ export default function Login() {
     if (userFound) {
       await AsyncStorage.setItem('currentUserID', JSON.stringify(userFound.id)); // Store logged-in user ID
       alert('Login successful!');
-      navigation.navigate('Main');
+      
+      // Reset navigation so that user wont go back to login screen unless logged out
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Main' }]
+      });
     } else {
       alert('Invalid email or password');
     }

@@ -13,6 +13,7 @@ import ProfileScreen from './screens/Profile';
 import RestaurantScreen from './screens/Restaurant';
 import LoginScreen from './screens/Login';
 import SignupScreen from './screens/Signup';
+import RewardDetails from './screens/RewardDetails';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -59,6 +60,15 @@ function ProfileStack() {
   );
 }
 
+function CardStack() {
+  return (
+    <Stack.Navigator initialRouteName=' '>
+      <Stack.Screen name = " " component = {CardsScreen} />
+      <Stack.Screen name = "Reward Details" component = {RewardDetails} />
+    </Stack.Navigator>
+  );
+}
+
 // The Botton Tab Navigator
 function MainAppTabs() {
   return (
@@ -80,7 +90,7 @@ function MainAppTabs() {
       />
       <Tab.Screen 
         name="Cards" 
-        component={CardsScreen} 
+        component={CardStack} 
         options={{ 
           tabBarIcon: ({ color, size }) => <Ionicons name="card" size={size} color={color} /> 
         }} 

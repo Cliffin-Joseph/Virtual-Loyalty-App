@@ -1,26 +1,24 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, FlatList, Image, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
-
-// Placeholder Data
-const restaurants = [
-  { id: '1', name: 'McDonalds', image: require('../app/assets/alien.jpg') },
-  { id: '2', name: 'Fishball Noodles', image: require('../app/assets/article1.jpg') },
-  { id: '3', name: 'Ramen House', image: require('../app/assets/article4.jpg') },
-  { id: '4', name: 'Bubble Tea', image: require('../app/assets/warcraft.jpg') },
-];
+import restaurantData from '../app/components/RestaurantData';
 
 export default function Search() {
   const [searchText, setSearchText] = useState('');
-  const [searchActive, setSearchActive] = useState(false);
   const [filteredRestaurants, setFilteredRestaurants] = useState([]);
 
-  const handleSearch = () => {
-    const filtered = restaurants.filter((restaurant) =>
-      restaurant.name.toLowerCase().includes(searchText.toLowerCase())
-    );
+  const handleSearch = (text) => {
+    setSearchText(text);
     
+    if (text.trim() === '') {
+      setFilteredRestaurants([]);
+      return;
+    }
+
+    const filtered = restaurantData.filter((restaurant) =>
+      restaurant.name.toLowerCase().includes(text.toLowerCase())
+    );
+
     setFilteredRestaurants(filtered);
-    setSearchActive(true); 
   };
 
   return (
@@ -29,11 +27,10 @@ export default function Search() {
         style={styles.searchBox}
         placeholder="Search..."
         value={searchText}
-        onChangeText={setSearchText}
-        onSubmitEditing={handleSearch}
+        onChangeText={handleSearch}
       />
       
-      {searchActive && filteredRestaurants.length > 0 && (
+      {filteredRestaurants.length > 0 ? (
         <>
           <Text style={styles.header}>Search Results</Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
@@ -47,7 +44,7 @@ export default function Search() {
             ))}
           </ScrollView>
         </>
-      )}
+      ) : searchText !== '' && (<Text style={styles.noResults}>No restaurants found.</Text>)}
     </View>
   );
 }

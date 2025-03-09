@@ -1,13 +1,37 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { View, Text, TextInput, Image, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import restaurantData from '../app/components/RestaurantData';
 
 export default function Home() {
-  const navigation = useNavigation(); //to enable navigation
+  const navigation = useNavigation(); // For Navigation
+  const [name, setName] = useState('');
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const usersData = await AsyncStorage.getItem('users');
+        if (usersData) {
+          const users = JSON.parse(usersData);
+          const lastUser = users[users.length - 1]; // Get the most recent signed-up user
+          if (lastUser && lastUser.name) {
+            setName(lastUser.name);
+          }
+        }
+      } catch (error) {
+        console.error('Error retrieving user data:', error);
+      }
+    };
+
+    fetchUser();
+  }, []);
 
   return (
    <View style={styles.container}>
+        {/* Welcome Message*/}
+        {name ? <Text style={styles.welcomeText}>Welcome, {name}!</Text> : null}
+
         {/* Banner */}
         <Image source={require('../app/assets/newsletter2.jpg')} style={styles.banner} />
         
@@ -53,6 +77,11 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     backgroundColor: '#f8f8f8',
+  },
+  welcomeText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 10,
   },
   searchContainer: {
     flex: 0.75,

@@ -77,6 +77,7 @@ export default function Profile() {
     }
   };
 
+  // Create function for calling onto other functions for changing profile picture
   const handleProfilePicturePress = () => {
     Alert.alert(
       "Change Profile Picture",

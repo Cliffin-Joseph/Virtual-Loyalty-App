@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, FlatList, Image, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import restaurantData from '../app/components/RestaurantData';
 
 export default function Search() {
   const [searchText, setSearchText] = useState('');
-  const [filteredRestaurants, setFilteredRestaurants] = useState([]);
+  const [filteredRestaurants, setFilteredRestaurants] = useState(restaurantData);
+  const navigation = useNavigation();
 
   const handleSearch = (text) => {
     setSearchText(text);
     
     if (text.trim() === '') {
-      setFilteredRestaurants([]);
+      setFilteredRestaurants(restaurantData);
       return;
     }
 
@@ -19,6 +21,10 @@ export default function Search() {
     );
 
     setFilteredRestaurants(filtered);
+  };
+
+  const handleRestaurantPress = (restaurant) => {
+    navigation.navigate('Restaurant', { restaurant });
   };
 
   return (
@@ -32,19 +38,22 @@ export default function Search() {
       
       {filteredRestaurants.length > 0 ? (
         <>
-          <Text style={styles.header}>Search Results</Text>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          <Text style={styles.header}>{searchText ? 'Search Results' : 'All Restaurants'}</Text>
+          <ScrollView showsVerticalScrollIndicator={false}>
             {filteredRestaurants.map((restaurant) => (
-              <TouchableOpacity key={restaurant.id} style={styles.restaurantCard}>
-                <Image source={restaurant.image} style={styles.restaurantImage} />
-                <View style={styles.overlay}>
-                  <Text style={styles.restaurantText}>{restaurant.name}</Text>
+              <TouchableOpacity key={restaurant.id} style={styles.restaurantCardVertical} onPress={() => handleRestaurantPress(restaurant)}>
+                <Image source={restaurant.image} style={styles.restaurantImageVertical} />
+                <View style={styles.restaurantDetails}>
+                  <Text style={styles.restaurantName}>{restaurant.name}</Text>
+                  <Text style={styles.restaurantDescription}>{restaurant.description}</Text>
                 </View>
               </TouchableOpacity>
             ))}
           </ScrollView>
         </>
-      ) : searchText !== '' && (<Text style={styles.noResults}>No restaurants found.</Text>)}
+      ) : (
+        <Text style={styles.noResults}>No restaurants found.</Text>
+      )}
     </View>
   );
 }
@@ -66,28 +75,38 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginVertical: 10,
   },
-  restaurantCard: {
-    marginRight: 15,
+  restaurantCardVertical: {
+    flexDirection: 'row',
+    backgroundColor: '#fff',
     borderRadius: 10,
     overflow: 'hidden',
-    width: 250,
-    height: 170,
-  },
-  restaurantImage: {
-    width: '100%',
-    height: '100%',
-  },
-  overlay: {
-    position: 'absolute',
-    bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    width: '100%',
-    paddingVertical: 5,
+    marginBottom: 15,
+    padding: 10,
     alignItems: 'center',
   },
-  restaurantText: {
-    color: 'white',
+  restaurantImageVertical: {
+    width: 100,
+    height: 100,
+    borderRadius: 10,
+    marginRight: 10,
+  },
+  restaurantDetails: {
+    flex: 1,
+  },
+  restaurantName: {
+    fontSize: 16,
     fontWeight: 'bold',
+    marginBottom: 5,
+  },
+  restaurantDescription: {
+    fontSize: 14,
+    color: '#666',
+    marginBottom: 5,
+  },
+  noResults: {
+    textAlign: 'center',
+    marginTop: 20,
+    fontSize: 16,
+    color: 'gray',
   },
 });
-

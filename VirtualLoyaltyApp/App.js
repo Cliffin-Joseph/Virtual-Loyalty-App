@@ -39,6 +39,27 @@ function HomeStack() {
   );
 }
 
+// Stack that stores all navigations within home tab
+function SearchStack() {
+  return (
+    <SafeAreaView style={styles.safeArea}>
+      <Stack.Navigator>
+      <Stack.Screen 
+        name="SearchScreen" 
+        component={SearchScreen} 
+        options={{ headerShown: false }} 
+      />
+      <Stack.Screen 
+        name="Restaurant" 
+        component={RestaurantScreen} 
+        options={{ headerShown: false }} 
+      />
+    </Stack.Navigator>
+    </SafeAreaView>
+    
+  );
+}
+
 // Stack that stores all navigations within profile tab
 function ProfileStack() {
   return (
@@ -62,8 +83,8 @@ function ProfileStack() {
 
 function CardStack() {
   return (
-    <Stack.Navigator initialRouteName=' '>
-      <Stack.Screen name = " " component = {CardsScreen} />
+    <Stack.Navigator initialRouteName="CardsScreen">
+      <Stack.Screen name = "CardsScreen" component = {CardsScreen} options={{ headerShown: false }}  />
       <Stack.Screen name = "Reward Details" component = {RewardDetails} />
     </Stack.Navigator>
   );
@@ -83,8 +104,9 @@ function MainAppTabs() {
       />
       <Tab.Screen 
         name="Search" 
-        component={SearchScreen} 
+        component={SearchStack} 
         options={{ 
+          headerShown: false,
           tabBarIcon: ({ color, size }) => <Ionicons name="search" size={size} color={color} /> 
         }} 
       />
@@ -92,6 +114,7 @@ function MainAppTabs() {
         name="Cards" 
         component={CardStack} 
         options={{ 
+          headerShown: false,
           tabBarIcon: ({ color, size }) => <Ionicons name="card" size={size} color={color} /> 
         }} 
       />

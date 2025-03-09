@@ -39,6 +39,27 @@ function HomeStack() {
   );
 }
 
+// Stack that stores all navigations within home tab
+function SearchStack() {
+  return (
+    <SafeAreaView style={styles.safeArea}>
+      <Stack.Navigator>
+      <Stack.Screen 
+        name="SearchScreen" 
+        component={SearchScreen} 
+        options={{ headerShown: false }} 
+      />
+      <Stack.Screen 
+        name="Restaurant" 
+        component={RestaurantScreen} 
+        options={{ headerShown: false }} 
+      />
+    </Stack.Navigator>
+    </SafeAreaView>
+    
+  );
+}
+
 // Stack that stores all navigations within profile tab
 function ProfileStack() {
   return (
@@ -83,8 +104,9 @@ function MainAppTabs() {
       />
       <Tab.Screen 
         name="Search" 
-        component={SearchScreen} 
+        component={SearchStack} 
         options={{ 
+          headerShown: false,
           tabBarIcon: ({ color, size }) => <Ionicons name="search" size={size} color={color} /> 
         }} 
       />

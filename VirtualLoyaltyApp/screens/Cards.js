@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { SafeAreaView, View, Text, TouchableOpacity, StyleSheet, Alert, ScrollView, FlatList, Dimensions, Image, ImageBackground } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import restaurantData from '../app/components/RestaurantData';
+import { Ionicons } from '@expo/vector-icons';
 
 const { width } = Dimensions.get('window');
 
@@ -53,14 +54,11 @@ export default function Cards() {
         style={styles.changeButton}
         onPress = {toggleScrollDirection}
       >
-        {isHorizontal ? (
-        <Text style={styles.claimButtonText}>Vertical</Text>
-        ) : (
-          <Text style={styles.claimButtonText}>Horizontal</Text>
-        )}
+        <Text style={styles.claimButtonText}>Change View</Text>
+        
       </TouchableOpacity>
     </View>
-      <View style={styles.cardsContainer}>
+    <View style={styles.cardsContainer}>
         <FlatList
           data={restaurants}
           horizontal={isHorizontal}
@@ -74,7 +72,9 @@ export default function Cards() {
                   <Text style={styles.cardTitle}>{item.name}</Text>
                   <View style={styles.stampsContainer}>
                     {item.filledStamps.map((filled, i) => (
-                      <View key={i} style={[styles.stampPlaceholder, filled && styles.filledStamp]} />
+                      <View key={i} style={[styles.stampPlaceholder, filled && styles.filledStamp]}>
+                        {filled && <Ionicons name="star" size={40} color="#FFD700" />}
+                      </View>
                     ))}
                   </View>
                 </ImageBackground>
@@ -199,6 +199,8 @@ const styles = StyleSheet.create({
     borderRadius: 35,
     backgroundColor: '#ddd',
     margin: 7,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   filledStamp: {
     backgroundColor: '#4CAF50',

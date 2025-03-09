@@ -62,8 +62,8 @@ function ProfileStack() {
 
 function CardStack() {
   return (
-    <Stack.Navigator initialRouteName=' '>
-      <Stack.Screen name = " " component = {CardsScreen} />
+    <Stack.Navigator initialRouteName="CardsScreen">
+      <Stack.Screen name = "CardsScreen" component = {CardsScreen} options={{ headerShown: false }}  />
       <Stack.Screen name = "Reward Details" component = {RewardDetails} />
     </Stack.Navigator>
   );
@@ -92,6 +92,7 @@ function MainAppTabs() {
         name="Cards" 
         component={CardStack} 
         options={{ 
+          headerShown: false,
           tabBarIcon: ({ color, size }) => <Ionicons name="card" size={size} color={color} /> 
         }} 
       />

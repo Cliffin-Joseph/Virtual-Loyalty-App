@@ -91,6 +91,7 @@ export default function Profile() {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.pageTitle}>Your Profile</Text>  
       {user ? (
         <>
           <View style={styles.profileHeader}>
@@ -156,6 +157,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#f8f8f8',
     alignItems: 'center',
     padding: 20,
+  },
+  pageTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
   },
   profileHeader: {
     alignItems: 'center',

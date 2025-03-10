@@ -32,7 +32,7 @@ const restaurantData = [
     image: require('../assets/bubble-tea.jpeg'),
     postalCode: '018956',
     description: 'Refreshing bubble tea with various flavors and toppings.',
-    promotions: ['Loyalty Card - Get 1 Free Drink', 'Limited Edition Matcha Boba'],
+    promotions: ['Get 1 Free Drink', 'Limited Edition Matcha Boba'],
     rewards: ['1x Free Bubble Tea', '1x Free Topping']
   },
   {
@@ -41,7 +41,7 @@ const restaurantData = [
       image: require('../assets/seafood.jpeg'),
       postalCode: '179023',
       description: 'Fresh seafood dishes made with premium ingredients.',
-      promotions: ['Special Seafood Platter Discount', 'Loyalty Card - Free Dish'],
+      promotions: ['Seafood Platter Discount', 'Loyalty Card - Free Dish'],
       rewards: ['1x Free Prawn Dish', '1x Free Side Dish']
   },
   {
@@ -50,8 +50,8 @@ const restaurantData = [
       image: require('../assets/chicken-rice.jpg'),
       postalCode: '178880',
       description: 'Authentic Hainanese chicken rice with fragrant rice and chili sauce.',
-      promotions: ['Loyalty Card - Get 1 Free Drink', 'Limited Edition Matcha Boba'],
-      rewards: ['1x Free Egg', '1x Free Soup']
+      promotions: ['Get 1 Free Drink', '$1 chicken cutlet upsize'],
+      rewards: ['1x Free Drink', '1x Free Egg']
   },
   {
       id: '7',
@@ -59,7 +59,7 @@ const restaurantData = [
       image: require('../assets/nasi-lemak.jpg'),
       postalCode: '760805',
       description: 'Fragrant coconut rice served with sambal, fried anchovies, and egg.',
-      promotions: ['Loyalty Card - Get 1 Free Drink', 'Limited Edition Matcha Boba'],
+      promotions: ['Get 1 Free Drink', '10% off set B'],
       rewards: ['1x Free Chicken Wing', '1x Free Drink']
   },
 ];

@@ -40,15 +40,20 @@ export default function Home() {
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         {restaurantData.map((restaurant) => (
             <TouchableOpacity 
-              key={restaurant.id} 
-              style={styles.restaurantCard}
-              onPress={() => navigation.navigate('Restaurant', { restaurant })} // Navigate on press
-            >
-            <Image source={restaurant.image} style={styles.restaurantImage} />
-            <View style={styles.overlay}>
-                <Text style={styles.restaurantText}>{restaurant.name}</Text>
+            key={restaurant.id} 
+            style={styles.promotionCard}
+            onPress={() => navigation.navigate('Restaurant', { restaurant })} // Navigate on press
+          >
+            <Image source={restaurant.image} style={styles.promotionImage} />
+            <View style={styles.promotionDetails}>
+              <Text style={styles.promotionTitle}>{restaurant.name}</Text>
+                <View style={styles.promotionBox}>
+                {restaurant.promotions.map((promo, index) => (
+                    <Text key={index} style={styles.promotionText}>• {promo}</Text>
+                ))}
+                </View>
             </View>
-            </TouchableOpacity>
+          </TouchableOpacity>
         ))}
         </ScrollView>
         
@@ -105,6 +110,44 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 15,
   },
+  promotionCard: {
+    flexDirection: 'row',
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    overflow: 'hidden',
+    marginRight: 15,
+    width: 300,
+    height: 150,
+    alignItems: 'center',
+    padding: 0,
+  },
+  promotionImage: {
+    width: 150,
+    height: 150,
+    borderRadius: 10,
+    marginRight: 10,
+  },
+  promotionDetails: {
+    flex: 1,
+    height: '100%',
+  },
+  promotionTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#444',
+    top: 10,
+    textAlign:'center',
+  },
+  promotionBox: {
+    fontSize: 14,
+    color: '#444',
+    marginTop: 20,
+  },
+  promotionText: {
+    fontSize: 14,
+    color: '#444',
+    marginTop: 10,
+  },
   restaurantCard: {
     marginRight: 15,
     borderRadius: 10,
@@ -114,12 +157,12 @@ const styles = StyleSheet.create({
   },
   restaurantImage: {
     width: '100%',
-    height: '100%',
+    height: '90%',
   },
   overlay: {
     position: 'absolute',
     bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 1)',
     width: '100%',
     paddingVertical: 5,
     alignItems: 'center',

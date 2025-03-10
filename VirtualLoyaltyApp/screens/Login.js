@@ -9,26 +9,36 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
 
-  // Function to handle user login
-  const handleLogin = async () => {
-    const storedUsers = await AsyncStorage.getItem('users');
-    const users = storedUsers ? JSON.parse(storedUsers) : [];
-    
-    // to find user with matching email and password
-    const userFound = users.find((user) => user.email === email && user.password === password);
-    if (userFound) {
-      await AsyncStorage.setItem('currentUserID', JSON.stringify(userFound.id)); // Store logged-in user ID
-      alert('Login successful!');
-      
-      // Reset navigation so that user wont go back to login screen unless logged out
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'Main' }]
-      });
-    } else {
-      alert('Invalid email or password'); // to show error if login fails
-    }
-  };
+    // Function to handle user login with error handling
+    const handleLogin = async () => {
+      try {
+        if (!email || !password) {
+          alert('Please enter both email and password.');
+          return;
+        }
+  
+        const storedUsers = await AsyncStorage.getItem('users');
+        const users = storedUsers ? JSON.parse(storedUsers) : [];
+        
+        const userFound = users.find((user) => user.email === email && user.password === password);
+        
+        if (userFound) {
+          await AsyncStorage.setItem('currentUserID', JSON.stringify(userFound.id)); // Store logged-in user ID
+          alert('Login successful!');
+          
+          // Reset navigation to prevent going back to login
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'Main' }]
+          });
+        } else {
+          alert('Invalid email or password'); // to show error if login fails
+        }
+      } catch (error) {
+        console.error('Error during login:', error);
+        alert('An error occurred. Please try again later.'); 
+      }
+    };
 
   return (
     <View style={styles.container}>

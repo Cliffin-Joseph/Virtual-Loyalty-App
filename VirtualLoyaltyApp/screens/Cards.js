@@ -9,35 +9,40 @@ const { width } = Dimensions.get('window');
 export default function Cards() {
   const navigation = useNavigation();
   const route = useRoute();
-  const totalStamps = 8;
+  const totalStamps = 8; //total number of stamps required to complete a card
+
+  // To initialize restaurant data with empty stamp arrays 
   const [restaurants, setRestaurants] = useState(
     restaurantData.map(restaurant => ({
       ...restaurant,
-      filledStamps: Array(totalStamps).fill(false),
+      filledStamps: Array(totalStamps).fill(false), // to fill initial state with false (unfilled stamps)
     }))
   );
   const [globalRewards, setGlobalRewards] = useState([]);
   const [isHorizontal, setIsHorizontal] = useState(true);
   
+  // Function to toggle between horizontal and vertical view
   const toggleScrollDirection = () => {
     setIsHorizontal(!isHorizontal);
     console.log("Horizontal is:", isHorizontal);
   };
 
+  // Function to fill the next available stamp
   function fillNextStamp(index) {
     setRestaurants(prevRestaurants => {
       const updatedRestaurants = [...prevRestaurants];
       const restaurant = updatedRestaurants[index];
 
-      const nextStamp = restaurant.filledStamps.indexOf(false);
-      if (nextStamp === -1) return prevRestaurants;
+      const nextStamp = restaurant.filledStamps.indexOf(false); // to find the next unfilled stamp
+      if (nextStamp === -1) return prevRestaurants; // if all stamps are filled, current state is returned
 
-      restaurant.filledStamps[nextStamp] = true;
+      restaurant.filledStamps[nextStamp] = true; // to mark the next stamp as filled
 
+      // if all stamps are filled, reward is triggered and stamps are reset
       if (nextStamp === totalStamps - 1) {
         Alert.alert("Congratulations!", `You completed ${restaurant.name}'s stamp card!`);
         setGlobalRewards(prevRewards => [...prevRewards, { name: restaurant.rewards[0], image: restaurant.image, restaurant: restaurant.name }]);
-        restaurant.filledStamps.fill(false);
+        restaurant.filledStamps.fill(false); // to reset stamps after completion
       }
 
       return updatedRestaurants;
@@ -48,6 +53,7 @@ export default function Cards() {
     <SafeAreaView style={styles.safeArea}>
     <ScrollView contentContainerStyle={styles.scrollContainer}>
       
+    {/* Header Section */}
     <View style={styles.stampTitle}>
       <Text style={styles.cardHeader}>Your Cards</Text>
       <TouchableOpacity 
@@ -55,9 +61,10 @@ export default function Cards() {
         onPress = {toggleScrollDirection}
       >
         <Text style={styles.claimButtonText}>Change View</Text>
-        
       </TouchableOpacity>
     </View>
+
+    {/* Cards Display Section */}
     <View style={styles.cardsContainer}>
         <FlatList
           data={restaurants}
@@ -84,6 +91,7 @@ export default function Cards() {
         />
       </View>
 
+      {/* Rewards Section */}
       <View style={styles.rewardsSection}>
         <Text style={styles.sectionHeader}>Your Rewards</Text>
         {globalRewards.length === 0 ? (
@@ -95,7 +103,6 @@ export default function Cards() {
               <View style={styles.rewardTextContainer}>
                 <Text style={styles.rewardText}>{reward.name}</Text>
                 <Text style={styles.restaurantText}>{reward.restaurant}</Text>
-                
               </View>
               <TouchableOpacity 
                   style={styles.claimButton}

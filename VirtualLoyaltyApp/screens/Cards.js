@@ -23,30 +23,40 @@ export default function Cards() {
   
   // Function to toggle between horizontal and vertical view
   const toggleScrollDirection = () => {
-    setIsHorizontal(!isHorizontal);
-    console.log("Horizontal is:", isHorizontal);
+    try {
+      setIsHorizontal(!isHorizontal);
+      console.log("Horizontal is:", isHorizontal);
+    } catch (error) {
+      console.error("Error toggling scroll direction:", error);
+    }
   };
 
   // Function to fill the next available stamp
   function fillNextStamp(index) {
-    setRestaurants(prevRestaurants => {
-      const updatedRestaurants = [...prevRestaurants];
-      const restaurant = updatedRestaurants[index];
+    try {
+      setRestaurants(prevRestaurants => {
+        const updatedRestaurants = [...prevRestaurants];
+        const restaurant = updatedRestaurants[index];
 
-      const nextStamp = restaurant.filledStamps.indexOf(false); // to find the next unfilled stamp
-      if (nextStamp === -1) return prevRestaurants; // if all stamps are filled, current state is returned
+        if (!restaurant) return prevRestaurants;
 
-      restaurant.filledStamps[nextStamp] = true; // to mark the next stamp as filled
+        const nextStamp = restaurant.filledStamps.indexOf(false);
+        if (nextStamp === -1) return prevRestaurants;
 
-      // if all stamps are filled, reward is triggered and stamps are reset
-      if (nextStamp === totalStamps - 1) {
-        Alert.alert("Congratulations!", `You completed ${restaurant.name}'s stamp card!`);
-        setGlobalRewards(prevRewards => [...prevRewards, { name: restaurant.rewards[0], image: restaurant.image, restaurant: restaurant.name }]);
-        restaurant.filledStamps.fill(false); // to reset stamps after completion
-      }
+        restaurant.filledStamps[nextStamp] = true;
 
-      return updatedRestaurants;
-    });
+        // If all stamps are filled, trigger reward and reset stamps
+        if (nextStamp === totalStamps - 1) {
+          Alert.alert("Congratulations!", `You completed ${restaurant.name}'s stamp card!`);
+          setGlobalRewards(prevRewards => [...prevRewards, { name: restaurant.rewards[0], image: restaurant.image, restaurant: restaurant.name }]);
+          restaurant.filledStamps.fill(false);
+        }
+
+        return updatedRestaurants;
+      });
+    } catch (error) {
+      console.error("Error filling stamp:", error);
+    }
   }
 
   return (

@@ -10,9 +10,10 @@ export default function Profile() {
   const [editedUser, setEditedUser] = useState(null);
 
   useEffect(() => {
-    loadUserData();
+    loadUserData(); // to load user data
   }, []);
 
+  // Function to load user data from AsyncStorage
   const loadUserData = async () => {
     const storedUsers = await AsyncStorage.getItem('users');
     const currentUserID = await AsyncStorage.getItem('currentUserID');
@@ -27,10 +28,12 @@ export default function Profile() {
     }
   };
 
+  // Function to enable edit mode
   const handleEdit = () => {
     setIsEditing(true);
   };
 
+  // Function to save updated user data
   const handleSave = async () => {
     if (!editedUser.name || !editedUser.mobile || !editedUser.email || !editedUser.dob) {
       alert('All fields are required!');
@@ -40,7 +43,7 @@ export default function Profile() {
     setUser(editedUser);
     setIsEditing(false);
     
-    // Update stored users
+    // Updates stored users
     const storedUsers = await AsyncStorage.getItem('users');
     if (storedUsers) {
       let users = JSON.parse(storedUsers);
@@ -52,6 +55,7 @@ export default function Profile() {
     }
   };
 
+  // Function to pick an image from the library
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: 'Images',
@@ -64,7 +68,7 @@ export default function Profile() {
       const newProfileImage = result.assets[0].uri;
       setEditedUser({ ...editedUser, profileImage: newProfileImage });
 
-      // Save updated profile picture
+      // Saves updated profile picture
       const storedUsers = await AsyncStorage.getItem('users');
       if (storedUsers) {
         let users = JSON.parse(storedUsers);
@@ -77,7 +81,7 @@ export default function Profile() {
     }
   };
 
-  // Create function for calling onto other functions for changing profile picture
+  // Function to prompt the user to change their profile picture
   const handleProfilePicturePress = () => {
     Alert.alert(
       "Change Profile Picture",
@@ -94,12 +98,15 @@ export default function Profile() {
       <Text style={styles.pageTitle}>Your Profile</Text>  
       {user ? (
         <>
+          {/* Profile Header with Image and Name */}
           <View style={styles.profileHeader}>
             <TouchableOpacity onPress={handleProfilePicturePress}>
               <Image source={editedUser.profileImage ? { uri: editedUser.profileImage } : require('../app/assets/default_profile.png')} style={styles.profileImage} />
             </TouchableOpacity>
             <Text style={styles.profileName}>{user.name}</Text>
           </View>
+          
+          {/* Editable User Information */}
           <View style={styles.infoContainer}>
             <Text style={styles.label}>Your Name</Text>
             <TextInput 
@@ -134,6 +141,7 @@ export default function Profile() {
             />
           </View>
 
+          {/* Buttons for Editing and Saving */}
           {isEditing ? (
             <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
               <Text style={styles.buttonText}>Save</Text>

@@ -39,7 +39,7 @@ function HomeStack() {
   );
 }
 
-// Stack that stores all navigations within home tab
+// Stack that stores all navigations within search tab
 function SearchStack() {
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -65,22 +65,17 @@ function ProfileStack() {
   return (
     <SafeAreaView style={styles.safeArea}>
       <Stack.Navigator>
-      <Stack.Screen 
-        name="ProfileScreen" 
-        component={ProfileScreen} 
-        options={{ headerShown: false }} 
-      />
-      {/* For when we implement the edit profile screen*/}
-      <Stack.Screen 
-        name="EditProfile" 
-        component={ProfileScreen} 
-        options={{ headerShown: true, title: 'Edit Profile' }} 
-      />
+        <Stack.Screen 
+          name="ProfileScreen" 
+          component={ProfileScreen} 
+          options={{ headerShown: false }} 
+        />
     </Stack.Navigator>
     </SafeAreaView>
   );
 }
 
+// Stack that stores all navigations within the cards tab
 function CardStack() {
   return (
     <Stack.Navigator initialRouteName="CardsScreen">
@@ -90,7 +85,7 @@ function CardStack() {
   );
 }
 
-// The Botton Tab Navigator
+// The Botton Tab Navigator for the main app navigation
 function MainAppTabs() {
   return (
     <Tab.Navigator>
@@ -153,7 +148,7 @@ function AppNavigator() {
   );
 }
 
-// The Root Navigation
+// The Root Navigation for the app
 export default function App() {
   return (
     <NavigationContainer>

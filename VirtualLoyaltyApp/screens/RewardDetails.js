@@ -7,8 +7,13 @@ export default function RewardDetails({ route }) {
 
     return (
     <View style={styles.container}>
+        {/* Header Message */}
         <Text style={styles.header}>Scan QR in the restaurant to claim!</Text>
+
+        {/* QR Code for claiming the reward */}
         <QRCode value="www.google.com" size={200} styles={styles.qr}/>
+
+        {/* Display reward name, location */}
         <Text style={styles.reward}>{rewards.reward}</Text>
         <Text style={styles.location}>Available at: {rewards.restaurant}</Text>
       </View>

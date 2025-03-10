@@ -4,6 +4,7 @@ import MapView, { Marker } from 'react-native-maps';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function Restaurant({ route, navigation }) {
+  // Check if restaurant data is available in route params
   if (!route.params || !route.params.restaurant) {
     return (
       <View style={styles.container}>
@@ -12,14 +13,15 @@ export default function Restaurant({ route, navigation }) {
     );
   }
 
-  const restaurant = route.params.restaurant;  
-  const [region, setRegion] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const restaurant = route.params.restaurant;  // Extract restaurant data
+  const [region, setRegion] = useState(null);  // Store location coordinates
+  const [loading, setLoading] = useState(true);  // State to track loading status
 
   useEffect(() => {
+    // to fetch geographical coordinates based on the restaurant's postal code
     const fetchCoordinates = async () => {
       try {
-        const apiKey = 'AIzaSyDrm6BoPO7OKt4at6LAqO-W9PvNq3JPLJc'; // Replace with your API key
+        const apiKey = 'AIzaSyDrm6BoPO7OKt4at6LAqO-W9PvNq3JPLJc';
         const response = await fetch(
           `https://maps.googleapis.com/maps/api/geocode/json?address=${restaurant.postalCode},SG&key=${apiKey}`
         );
@@ -46,7 +48,7 @@ export default function Restaurant({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-      {/* Fixed Back Button at the Top */}
+      {/* Back Button */}
       <View style={styles.backButtonContainer}>
         <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
           <Ionicons name="arrow-back" size={24} color="black" />
@@ -59,6 +61,7 @@ export default function Restaurant({ route, navigation }) {
         {/* Restaurant Image */}
         <Image source={restaurant.image} style={styles.restaurantBanner} />
 
+        {/* Restaurant Name & Description */}
         <Text style={styles.header}>{restaurant.name}</Text>
         <Text style={styles.description}>{restaurant.description}</Text>
 
@@ -79,7 +82,7 @@ export default function Restaurant({ route, navigation }) {
             <MapView 
               style={styles.map} 
               region={region} // Automatically centers the store
-              key={restaurant.id} // Forces re-render when a new restaurant is selected
+              key={restaurant.id} // ensures that the map re-renders when a new restaurant is selected
             >
               <Marker coordinate={region} title={restaurant.name} />
             </MapView>
@@ -99,9 +102,9 @@ const styles = StyleSheet.create({
   },
   backButtonContainer: {
     position: 'absolute',
-    top: 0, // Adjust based on status bar height
+    top: 0, 
     left: 0,
-    zIndex: 10, // Keeps it on top
+    zIndex: 10, 
     width: '100%',
     backgroundColor: '#f8f8f8',
     paddingVertical: 10,
@@ -114,7 +117,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
   },
   scrollContainer: {
-    paddingTop: 80, // Creates space for the fixed back button
+    paddingTop: 80, 
     paddingHorizontal: 20,
     paddingBottom: 30,
   },

@@ -8,6 +8,7 @@ export default function Home() {
   const navigation = useNavigation(); // For Navigation
   const [name, setName] = useState('');
 
+  // Fetch the last signed-up user from AsyncStorage
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -16,7 +17,7 @@ export default function Home() {
           const users = JSON.parse(usersData);
           const lastUser = users[users.length - 1]; // Get the most recent signed-up user
           if (lastUser && lastUser.name) {
-            setName(lastUser.name);
+            setName(lastUser.name); // Set the name in state
           }
         }
       } catch (error) {
@@ -48,9 +49,9 @@ export default function Home() {
             <View style={styles.promotionDetails}>
               <Text style={styles.promotionTitle}>{restaurant.name}</Text>
                 <View style={styles.promotionBox}>
-                {restaurant.promotions.map((promo, index) => (
-                    <Text key={index} style={styles.promotionText}>• {promo}</Text>
-                ))}
+                  {restaurant.promotions.map((promo, index) => (
+                      <Text key={index} style={styles.promotionText}>• {promo}</Text>
+                  ))}
                 </View>
             </View>
           </TouchableOpacity>
@@ -66,10 +67,10 @@ export default function Home() {
               style={styles.restaurantCard}
               onPress={() => navigation.navigate('Restaurant', { restaurant })} // Navigate on press
             >
-            <Image source={restaurant.image} style={styles.restaurantImage} />
-            <View style={styles.overlay}>
-                <Text style={styles.restaurantText}>{restaurant.name}</Text>
-            </View>
+              <Image source={restaurant.image} style={styles.restaurantImage} />
+              <View style={styles.overlay}>
+                  <Text style={styles.restaurantText}>{restaurant.name}</Text>
+              </View>
             </TouchableOpacity>
         ))}
         </ScrollView>

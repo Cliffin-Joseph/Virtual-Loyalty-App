@@ -9,10 +9,12 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
 
+  // Function to handle user login
   const handleLogin = async () => {
     const storedUsers = await AsyncStorage.getItem('users');
     const users = storedUsers ? JSON.parse(storedUsers) : [];
     
+    // to find user with matching email and password
     const userFound = users.find((user) => user.email === email && user.password === password);
     if (userFound) {
       await AsyncStorage.setItem('currentUserID', JSON.stringify(userFound.id)); // Store logged-in user ID
@@ -24,20 +26,41 @@ export default function Login() {
         routes: [{ name: 'Main' }]
       });
     } else {
-      alert('Invalid email or password');
+      alert('Invalid email or password'); // to show error if login fails
     }
   };
 
   return (
     <View style={styles.container}>
+      {/* Login Header */}
       <Text style={styles.header}>Login</Text>
+      
+      {/* Email Input */}
       <Text style={styles.label}>Enter your Email</Text>
-      <TextInput placeholder="Email" value={email} onChangeText={setEmail} keyboardType="email-address" style={styles.input} />
+      <TextInput 
+        placeholder="Email" 
+        value={email} 
+        onChangeText={setEmail} 
+        keyboardType="email-address" 
+        style={styles.input} 
+      />
+      
+      {/* Password Input */}
       <Text style={styles.label}>Enter your Password</Text>
-      <TextInput placeholder="Password" value={password} onChangeText={setPassword} secureTextEntry style={styles.input} />
+      <TextInput 
+        placeholder="Password" 
+        value={password} 
+        onChangeText={setPassword} 
+        secureTextEntry 
+        style={styles.input} 
+      />
+      
+      {/* Login Button */}
       <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
+      
+      {/* Navigation to Signup */}
       <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
         <Text style={styles.signUpText}>Don't have an account? Sign up</Text>
       </TouchableOpacity>

@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function Signup() {
+  // states to store user info
   const [name, setName] = useState('');
   const [dob, setDob] = useState('');
   const [mobile, setMobile] = useState('');
@@ -13,41 +14,50 @@ export default function Signup() {
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
 
+  // Function to handle user signup
   const handleSignup = async () => {
     if (!name || !dob || !mobile || !email || !password) {
-      alert('All fields are required!');
+      alert('All fields are required!'); // alerts if any field is empty
       return;
     }
 
-    const existingUsers = await AsyncStorage.getItem('users');
+    const existingUsers = await AsyncStorage.getItem('users'); // Retrieves stored user data
     const users = existingUsers ? JSON.parse(existingUsers) : [];
     const newUserId = users.length > 0 ? users[users.length - 1].id + 1 : 1; // Auto-increment ID
     
     const user = { id: newUserId, name, dob, mobile, email, password };
     users.push(user);
-    await AsyncStorage.setItem('users', JSON.stringify(users));
+    await AsyncStorage.setItem('users', JSON.stringify(users)); // Saves new user data
 
     alert('Signup successful! You can now log in.');
-    navigation.navigate('Login');
+    navigation.navigate('Login'); // Navigates to login screen
   };
 
   return (
     <View style={styles.container}>
+      {/* Back Button */}
       <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
         <Ionicons name="arrow-back" size={24} color="black" />
       </TouchableOpacity>
       
+      {/* Signup Form */}
       <Text style={styles.header}>Sign Up</Text>
       <Text style={styles.label}>Name</Text>
       <TextInput placeholder="Name" value={name} onChangeText={setName} style={styles.input} />
+      
       <Text style={styles.label}>Date of Birth</Text>
       <TextInput placeholder="Date of Birth" value={dob} onChangeText={setDob} style={styles.input} />
+      
       <Text style={styles.label}>Mobile</Text>
       <TextInput placeholder="Mobile" value={mobile} onChangeText={setMobile} keyboardType="phone-pad" style={styles.input} />
+      
       <Text style={styles.label}>Email</Text>
       <TextInput placeholder="Email" value={email} onChangeText={setEmail} keyboardType="email-address" style={styles.input} />
+      
       <Text style={styles.label}>Password</Text>
       <TextInput placeholder="Password" value={password} onChangeText={setPassword} secureTextEntry style={styles.input} />
+      
+      {/* Signup Button */}
       <TouchableOpacity style={styles.signupButton} onPress={handleSignup}>
         <Text style={styles.buttonText}>Sign Up</Text>
       </TouchableOpacity>

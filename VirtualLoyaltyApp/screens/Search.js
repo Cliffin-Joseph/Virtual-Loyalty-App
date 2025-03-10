@@ -8,14 +8,16 @@ export default function Search() {
   const [filteredRestaurants, setFilteredRestaurants] = useState(restaurantData);
   const navigation = useNavigation();
 
+  // Function to handle search input changes
   const handleSearch = (text) => {
     setSearchText(text);
     
     if (text.trim() === '') {
-      setFilteredRestaurants(restaurantData);
+      setFilteredRestaurants(restaurantData); // Shows all restaurants if the search box is empty
       return;
     }
 
+    // Filter restaurants based on the search query
     const filtered = restaurantData.filter((restaurant) =>
       restaurant.name.toLowerCase().includes(text.toLowerCase())
     );
@@ -23,12 +25,14 @@ export default function Search() {
     setFilteredRestaurants(filtered);
   };
 
+  // To navigate to the restaurant screen
   const handleRestaurantPress = (restaurant) => {
     navigation.navigate('Restaurant', { restaurant });
   };
 
   return (
     <View style={styles.searchContainer}>
+      {/* Search Input Field */}
       <TextInput
         style={styles.searchBox}
         placeholder="Search..."
@@ -36,9 +40,12 @@ export default function Search() {
         onChangeText={handleSearch}
       />
       
+      {/* Display Search Results or All Restaurants */}
       {filteredRestaurants.length > 0 ? (
         <>
           <Text style={styles.header}>{searchText ? 'Search Results' : 'All Restaurants'}</Text>
+          
+          {/* Scrollable List of Restaurants */}
           <ScrollView showsVerticalScrollIndicator={false}>
             {filteredRestaurants.map((restaurant) => (
               <TouchableOpacity key={restaurant.id} style={styles.restaurantCardVertical} onPress={() => handleRestaurantPress(restaurant)}>
@@ -52,6 +59,7 @@ export default function Search() {
           </ScrollView>
         </>
       ) : (
+        // Show message if no results found
         <Text style={styles.noResults}>No restaurants found.</Text>
       )}
     </View>

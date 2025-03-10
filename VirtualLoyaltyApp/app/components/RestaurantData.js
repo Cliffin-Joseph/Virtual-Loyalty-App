@@ -2,7 +2,7 @@ const restaurantData = [
   {
     id: '1',
     name: 'McDonalds',
-    image: require('../assets/mcdonalds.png'),
+    image: require('../assets/mcdonalds-free.png'),
     postalCode: '680620',
     description: 'McDonalds serves delicious fast food, including burgers, fries, and beverages.',
     promotions: ['Buy 1 Get 1 Free', 'Free Coke with Large Meal'],
@@ -11,7 +11,7 @@ const restaurantData = [
   {
     id: '2',
     name: 'Fishball Noodles',
-    image: require('../assets/fishball-noodle.jpg'),
+    image: require('../assets/fishball-noodle-free.jpg'),
     postalCode: '680552',
     description: 'A famous Singaporean dish, Fishball Noodles offers handmade fishballs and noodles.',
     promotions: ['10% off on weekends', 'Free soup with every meal'],
@@ -20,7 +20,7 @@ const restaurantData = [
   {
     id: '3',
     name: 'Ramen House',
-    image: require('../assets/ramen.jpg'),
+    image: require('../assets/ramen-free.jpg'),
     postalCode: '238865',
     description: 'Authentic Japanese ramen with rich broth and fresh ingredients.',
     promotions: ['Student Discount 15%', 'Happy Hour Deals'],
@@ -29,7 +29,7 @@ const restaurantData = [
   {
     id: '4',
     name: 'Bubble Tea',
-    image: require('../assets/bubble-tea.jpeg'),
+    image: require('../assets/bubble-tea-free.jpg'),
     postalCode: '018956',
     description: 'Refreshing bubble tea with various flavors and toppings.',
     promotions: ['Get 1 Free Drink', 'Limited Edition Matcha Boba'],
@@ -38,7 +38,7 @@ const restaurantData = [
   {
       id: '5',
       name: 'Seafood',
-      image: require('../assets/seafood.jpeg'),
+      image: require('../assets/seafood-free.jpg'),
       postalCode: '179023',
       description: 'Fresh seafood dishes made with premium ingredients.',
       promotions: ['Seafood Platter Discount', 'Loyalty Card - Free Dish'],
@@ -47,7 +47,7 @@ const restaurantData = [
   {
       id: '6',
       name: 'Chicken Rice',
-      image: require('../assets/chicken-rice.jpg'),
+      image: require('../assets/Chicken-rice-free.jpg'),
       postalCode: '178880',
       description: 'Authentic Hainanese chicken rice with fragrant rice and chili sauce.',
       promotions: ['Get 1 Free Drink', '$1 chicken cutlet upsize'],
@@ -56,7 +56,7 @@ const restaurantData = [
   {
       id: '7',
       name: 'Nasi Lemak',
-      image: require('../assets/nasi-lemak.jpg'),
+      image: require('../assets/nasi-lemak-free.jpg'),
       postalCode: '760805',
       description: 'Fragrant coconut rice served with sambal, fried anchovies, and egg.',
       promotions: ['Get 1 Free Drink', '10% off set B'],

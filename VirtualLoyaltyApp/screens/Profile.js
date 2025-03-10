@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
   },
   editButton: {
     marginTop: 20,
-    backgroundColor: '#007bff',
+    backgroundColor: '#ff6257',
     padding: 15,
     borderRadius: 5,
     width: '100%',
